@@ -41,6 +41,17 @@ desMsg db 10,13,"Number in descending order : $"
 
 allMsg db 's','v','x','n','e','a','d'
 
+;variables
+
+nums db  6 DUP <0>
+asc db  6 DUP <0>
+des db  6 DUP <0>  
+
+nums  db 0, 0, 0, 0, 0, 0
+asc  db 0, 0, 0, 0, 0, 0
+des  db 0, 0, 0, 0, 0, 0
+
+
 
 .code   ;the executable part of the program
 
