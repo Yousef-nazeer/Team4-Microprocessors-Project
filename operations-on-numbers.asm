@@ -69,7 +69,17 @@ save db ?
 
 ;MINA
 printC macro character
-
+pusha
+    pushf 
+    
+    mov dl, character  
+    mov ah, 2h
+    int 21h
+    
+    
+    popf
+    popa 
+    printC endm
 
 
 ;MINA
