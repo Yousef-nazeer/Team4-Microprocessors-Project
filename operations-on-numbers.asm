@@ -285,7 +285,147 @@ mov flag, 0
 
 ;ARSANI
 SelectOperation proc
+pusha
+ pushf
+ 
+    mov dl, input
+    mov compareReg,dl
 
+    L0:
+    cmp compareReg ,'?'
+    jne L1
+    
+    printM optionsMsg 
+    jmp finishSelect
+    
+    
+    L1:
+    cmp compareReg ,'r'
+    jne L2
+    
+    jmp repeat
+    
+    L2:
+    cmp compareReg ,'q'
+    jne L3
+         
+    jmp toEnd
+    
+    L3:
+    cmp compareReg ,'v'
+    jne L4
+    
+    printM avgMsg
+    printC avg
+    jmp finishSelect
+    
+    
+    L4: 
+    cmp compareReg ,'x'
+    jne L5
+    
+    printM maxMsg
+    printc max
+    jmp finishSelect
+    
+     
+    L5: 
+    cmp compareReg ,'n'
+    jne L6
+    
+    printM minMsg
+    printc min
+    jmp finishSelect 
+    
+    
+    L6:
+    cmp compareReg ,'e'
+    jne L7
+    
+    printM sdMsg
+    printc standard
+    jmp finishSelect
+    
+    
+    L7: 
+    cmp compareReg ,'s'
+    jne L8
+    
+    printM sumMsg
+    
+    mov ax, 0
+    mov al, sum
+    
+    aam
+    or ax,3030h
+    
+    printC ah
+    printC al
+    
+    jmp finishSelect
+    
+    L8:
+    cmp compareReg ,'a'
+    jne L9
+    
+    printM ascMsg
+    
+    mov cx ,6
+    mov si,0
+    
+    printAsc:
+    
+    printc asc[si]
+    inc si
+    
+    loop printAsc
+    
+    jmp finishSelect
+
+    L9:  
+    cmp compareReg ,'d'
+    jne L10
+    
+     printM desMsg
+    
+    mov cx ,6
+    mov si,0
+    
+    printDes:
+    
+    printc des[si]
+    inc si
+    
+    loop printDes
+    jmp finishSelect
+    
+    
+    L10:
+    cmp compareReg ,'l'
+    jne finishSelect
+    
+    mov cx,7
+    mov di,0
+    
+    printAll:
+    push cx
+    push di
+    
+   mov dl,allMsg[di]
+   mov input,dl
+   
+   call selectOperation 
+
+    pop di
+    pop cx
+    inc di
+    loop printAll
+    
+ finishSelect:
+ popf
+ popa
+  ret
+  SelectOperation endp
 
 ;MARK
 StandardOperation proc
