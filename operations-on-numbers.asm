@@ -84,6 +84,18 @@ pusha
 
 ;MINA
 printM macro string
+    pusha
+    pushf 
+    
+    
+    lea dx, string
+    mov ah, 09h
+    int 21h
+    
+    
+    popf
+    popa 
+    printM endm
 
 
 
