@@ -51,6 +51,13 @@ nums  db 0, 0, 0, 0, 0, 0
 asc  db 0, 0, 0, 0, 0, 0
 des  db 0, 0, 0, 0, 0, 0
 
+;Selection register
+
+compareReg db ?  ;for compare between the operations
+input db ? ;for read from user
+result db ? ;for save the result of mul or div or square
+flag db ? ;its value <0:false,1:true>
+
 
 
 .code   ;the executable part of the program
