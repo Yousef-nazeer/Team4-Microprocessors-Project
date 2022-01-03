@@ -58,6 +58,11 @@ input db ? ;for read from user
 result db ? ;for save the result of mul or div or square
 flag db ? ;its value <0:false,1:true>
 
+;registers for the square root
+reg db ?
+regShift db ?
+save db ?
+
 
 
 .code   ;the executable part of the program
