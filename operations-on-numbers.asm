@@ -180,12 +180,12 @@ main proc
 ;ARSANI
 read proc      
     pusha
-    pushf 
+    pushf ; to save current status
     mov ah,1h
-    int 21h
-    mov input, al       
+    int 21h ; ask user to enter a number
+    mov input, al  ; move the entered number from al to 'input' variable     
     popf
-    popa
+    popa ; reload latest status
     ret
     read endp 
 
