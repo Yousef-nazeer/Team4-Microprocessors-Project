@@ -204,7 +204,6 @@ read proc
     ret
     read endp 
 
-
 ;MARK
 checkN proc
  pusha
