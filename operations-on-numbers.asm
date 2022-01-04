@@ -231,7 +231,7 @@ checkN endp
 
 ;MARK
 checkC proc
-pusha
+    pusha
     pushf 
     
     mov flag,0
@@ -273,11 +273,12 @@ pusha
     mov flag,1
     
     endCheckC:
+    
     popf
     popa
     
     ret
-    checkC endp    
+    checkC endp
 
 
 ;CLARA
