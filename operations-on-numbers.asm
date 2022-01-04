@@ -115,7 +115,22 @@ popf
 popa
 mulO endm
 
-
+;arsani
+;result = n1 / n2
+divO macro n1, n2  
+    pusha
+    pushf
+    
+    mov ax,0
+    mov al, n1
+    div n2  
+    mov result, al 
+    
+    popf
+    popa 
+    divO endm
+    
+    
 ;YOUSSEF
 
 ;root function
