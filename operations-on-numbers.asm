@@ -138,7 +138,6 @@ divO macro n1, n2  ; n1,n2 values passed
 root macro value
 pusha
 popf
-call clear
 
 mov dl,value
 mov value,0
