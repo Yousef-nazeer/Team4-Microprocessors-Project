@@ -41,16 +41,61 @@ desMsg db 10,13,"Number in descending order : $"
 
 allMsg db 's','v','x','n','e','a','d'
 
+;variables
+
+nums db  6 DUP <0>
+asc db  6 DUP <0>
+des db  6 DUP <0>  
+
+nums  db 0, 0, 0, 0, 0, 0
+asc  db 0, 0, 0, 0, 0, 0
+des  db 0, 0, 0, 0, 0, 0
+
+;Selection register
+
+compareReg db ?  ;for compare between the operations
+input db ? ;for read from user
+result db ? ;for save the result of mul or div or square
+flag db ? ;its value <0:false,1:true>
+
+;registers for the square root
+reg db ?
+regShift db ?
+save db ?
+
+
 
 .code   ;the executable part of the program
 
 ;MINA
 printC macro character
-
+pusha
+    pushf 
+    
+    mov dl, character  
+    mov ah, 2h
+    int 21h
+    
+    
+    popf
+    popa 
+    printC endm
 
 
 ;MINA
 printM macro string
+    pusha
+    pushf 
+    
+    
+    lea dx, string
+    mov ah, 09h
+    int 21h
+    
+    
+    popf
+    popa 
+    printM endm
 
 
 
@@ -70,7 +115,22 @@ popf
 popa
 mulO endm
 
-
+;arsani
+;result = n1 / n2
+divO macro n1, n2  ; n1,n2 values passed
+    pusha
+    pushf ; save current status
+    
+    mov ax,0 ; initialize ax = 0 (ah = 0, al = 0)
+    mov al, n1 ; move n1 to al
+    div n2  ; divide n1 / al(n2) and save in al
+    mov result, al ; move result from al to 'result' variable
+    
+    popf
+    popa ; load latest status
+    divO endm
+    
+    
 ;YOUSSEF
 
 ;root function
@@ -135,14 +195,12 @@ main proc
 ;ARSANI
 read proc      
     pusha
-    pushf 
-    
+    pushf ; to save current status
     mov ah,1h
-    int 21h
-    mov input, al       
+    int 21h ; ask user to enter a number
+    mov input, al  ; move the entered number from al to 'input' variable     
     popf
-    popa
-    
+    popa ; reload latest status
     ret
     read endp 
 
@@ -241,7 +299,147 @@ mov flag, 0
 
 ;ARSANI
 SelectOperation proc
+pusha
+ pushf
+ 
+    mov dl, input
+    mov compareReg,dl
 
+    L0:
+    cmp compareReg ,'?'
+    jne L1
+    
+    printM optionsMsg 
+    jmp finishSelect
+    
+    
+    L1:
+    cmp compareReg ,'r'
+    jne L2
+    
+    jmp repeat
+    
+    L2:
+    cmp compareReg ,'q'
+    jne L3
+         
+    jmp toEnd
+    
+    L3:
+    cmp compareReg ,'v'
+    jne L4
+    
+    printM avgMsg
+    printC avg
+    jmp finishSelect
+    
+    
+    L4: 
+    cmp compareReg ,'x'
+    jne L5
+    
+    printM maxMsg
+    printc max
+    jmp finishSelect
+    
+     
+    L5: 
+    cmp compareReg ,'n'
+    jne L6
+    
+    printM minMsg
+    printc min
+    jmp finishSelect 
+    
+    
+    L6:
+    cmp compareReg ,'e'
+    jne L7
+    
+    printM sdMsg
+    printc standard
+    jmp finishSelect
+    
+    
+    L7: 
+    cmp compareReg ,'s'
+    jne L8
+    
+    printM sumMsg
+    
+    mov ax, 0
+    mov al, sum
+    
+    aam
+    or ax,3030h
+    
+    printC ah
+    printC al
+    
+    jmp finishSelect
+    
+    L8:
+    cmp compareReg ,'a'
+    jne L9
+    
+    printM ascMsg
+    
+    mov cx ,6
+    mov si,0
+    
+    printAsc:
+    
+    printc asc[si]
+    inc si
+    
+    loop printAsc
+    
+    jmp finishSelect
+
+    L9:  
+    cmp compareReg ,'d'
+    jne L10
+    
+     printM desMsg
+    
+    mov cx ,6
+    mov si,0
+    
+    printDes:
+    
+    printc des[si]
+    inc si
+    
+    loop printDes
+    jmp finishSelect
+    
+    
+    L10:
+    cmp compareReg ,'l'
+    jne finishSelect
+    
+    mov cx,7
+    mov di,0
+    
+    printAll:
+    push cx
+    push di
+    
+   mov dl,allMsg[di]
+   mov input,dl
+   
+   call selectOperation 
+
+    pop di
+    pop cx
+    inc di
+    loop printAll
+    
+ finishSelect:
+ popf
+ popa
+  ret
+  SelectOperation endp
 
 ;MARK
 StandardOperation proc
@@ -251,13 +449,13 @@ StandardOperation proc
 avgOperation proc
  pusha
  pushf
- mov sum,0
- mov avg,0
+ mov sum,0  
+ mov avg,0          
  mov cx ,6
  mov si ,0
  
  sumLoop:
- mov dl, nums[si]
+ mov dl, nums[si] 
  sub dl,30h
  add sum,dl
  inc si
