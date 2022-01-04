@@ -117,17 +117,17 @@ mulO endm
 
 ;arsani
 ;result = n1 / n2
-divO macro n1, n2  
+divO macro n1, n2  ; n1,n2 values passed
     pusha
-    pushf
+    pushf ; save current status
     
-    mov ax,0
-    mov al, n1
-    div n2  
-    mov result, al 
+    mov ax,0 ; initialize ax = 0 (ah = 0, al = 0)
+    mov al, n1 ; move n1 to al
+    div n2  ; divide n1 / al(n2) and save in al
+    mov result, al ; move result from al to 'result' variable
     
     popf
-    popa 
+    popa ; load latest status
     divO endm
     
     
