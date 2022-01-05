@@ -443,16 +443,7 @@ pusha
 
 ;MARK
 StandardOperation proc           
- pusha
- pushf
- 
- mov standard, 0
- 
- 
- popf
- popa
- ret
- StandardOperation endp
+
 
 
  
