@@ -442,8 +442,20 @@ pusha
   SelectOperation endp
 
 ;MARK
-StandardOperation proc
+StandardOperation proc           
+ pusha
+ pushf
+ 
+ mov standard, 0
+ 
+ 
+ popf
+ popa
+ ret
+ StandardOperation endp
 
+
+ 
 
 
 avgOperation proc
