@@ -444,6 +444,70 @@ pusha
 ;MARK
 StandardOperation proc           
 
+ pusha
+ pushf
+ 
+ mov standard, 0
+ 
+ mov cx,6
+ mov si,0
+ 
+ rootSum:
+ 
+ mov dl, nums[si]
+ cmp avg,dl
+ ja aOp
+ 
+ mov al,avg
+ sub al,30h
+ sub dl,30h
+ sub dl,al
+ 
+ mov bl,dl
+ 
+ jmp toPower
+ 
+
+ aOp:
+ 
+ mov al,avg
+ sub al,30h
+ sub dl,30h
+ sub al,dl
+ 
+ mov bl,al
+ 
+ toPower: 
+ 
+
+ mulO bl,bl
+ mov bl,result
+ add standard,bl
+ 
+ 
+ inc si
+ loop rootSum
+ 
+ mov bh,standard
+ mov bl,6  
+ 
+ 
+ divO bh,bl   
+ 
+ mov al,result
+ root al
+ 
+ mov bl,result
+ add bl,30h
+ mov standard,bl
+ 
+ 
+ 
+ 
+ popf
+ popa
+ ret
+ StandardOperation endp
 
 
  
