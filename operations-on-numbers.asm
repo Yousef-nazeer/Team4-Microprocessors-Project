@@ -188,9 +188,38 @@ root endm
 
 ;YOUSSEF
 main proc  
+mov ax,data
+mov ds,ax
 
+repeat:
+printM enterMsg
+mov cx,6
+mov di,0
+readLoop:
+printM num
+printC n[di]
+printM space
 
+ call read  ;input
+ call checkN ;0--9
+ 
+  cmp flag,0
+  je cont
+  printM errorNum
+  jmp readLoop  
+  
+  cont:
+  
+  mov dl,input
+  mov nums[di],dl  
+      
+ inc di
+ loop readLoop
 
+main endp
+   jmp toEnd
+   
+   
 ;ARSANI
 read proc      
     pusha
